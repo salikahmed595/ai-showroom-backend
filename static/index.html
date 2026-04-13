@@ -885,6 +885,9 @@
     <div class="toast" id="toast"></div>
 
     <script>
+        // ── Backend URL (Render deployment) ─────────────────────────────────────
+        const BACKEND_URL = 'https://ai-showroom-backend.onrender.com';
+
         // ── State ──────────────────────────────────────────────────────────────
         const state = { model: null, cloth: null, jobId: null, pollTimer: null };
 
@@ -957,7 +960,7 @@
             form.append('cloth_image', state.cloth);
 
             try {
-                const res = await fetch('/try-on', { method: 'POST', body: form });
+                const res = await fetch(`${BACKEND_URL}/try-on`, { method: 'POST', body: form });
                 if (!res.ok) {
                     const err = await res.json();
                     throw new Error(err.detail || `HTTP ${res.status}`);
@@ -979,7 +982,7 @@
         function pollJob() {
             state.pollTimer = setInterval(async () => {
                 try {
-                    const res = await fetch(`/jobs/${state.jobId}`);
+                    const res = await fetch(`${BACKEND_URL}/jobs/${state.jobId}`);
                     if (!res.ok) throw new Error(`Poll error: HTTP ${res.status}`);
                     const job = await res.json();
 

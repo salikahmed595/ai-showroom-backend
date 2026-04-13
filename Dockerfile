@@ -14,6 +14,9 @@ RUN pip install --no-cache-dir -r requirements.txt
 # App
 COPY main.py .
 
+# Create required directories
+RUN mkdir -p uploads static
+
 # Non-root user
 RUN useradd -m vton && chown -R vton /app
 USER vton

@@ -46,9 +46,21 @@ POSES = [
 # ─── APP ─────────────────────────────────────────────────────────────
 app = FastAPI(title="AI Digital Showroom")
 
+# Allow requests from the Vercel frontend and any other origin (adjust if needed)
+FRONTEND_ORIGINS = [
+    "https://ai-showroom-frontend.vercel.app",
+    "http://localhost:3000",
+    "http://localhost:5173",
+    "http://127.0.0.1:5500",
+    "http://localhost:5500",
+    "http://localhost",
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=FRONTEND_ORIGINS,
+    allow_origin_regex=r"https://.*\.vercel\.app",  # allow all Vercel preview deployments
+    allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
@@ -210,7 +222,7 @@ async def run_job(job_id: str, model_path: Path, cloth_path: Path):
 # ─── ROUTES ──────────────────────────────────────────────────────────
 @app.get("/")
 async def root():
-    return RedirectResponse("/static/index.html")
+    return {"status": "ok", "service": "AI Digital Showroom API", "docs": "/docs"}
 
 @app.get("/health")
 async def health():

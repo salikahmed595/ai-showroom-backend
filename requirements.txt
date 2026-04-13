@@ -1,7 +1,6 @@
 fastapi
-uvicorn
+uvicorn[standard]
 replicate
 python-dotenv
 aiofiles
 python-multipart
-s

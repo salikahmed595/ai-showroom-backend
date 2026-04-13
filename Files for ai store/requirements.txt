@@ -4,4 +4,3 @@ replicate
 python-dotenv
 aiofiles
 python-multipart
-s
